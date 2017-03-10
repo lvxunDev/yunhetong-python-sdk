@@ -6,7 +6,8 @@ from secretManager import secretManager
 
 class SDKManager:
     def __init__(self, appId, pubPath, priPath):
-        self.host = "http://sdk.yunhetong.com/sdk"
+        # self.host = "http://sdk.yunhetong.com/sdk"
+        self.host = "http://localhost:8080/sdk"
         self.appId = appId
         self.pubPath = pubPath
         self.priPath = priPath
@@ -24,4 +25,4 @@ class SDKManager:
             'secret': secret
         }
         r = requests.post(self.host + url, data)
-        print r.json()
+        return self.secretManager.decrypt(r.json())

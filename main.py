@@ -6,7 +6,9 @@ from LXUser import LXUser
 if __name__ == "__main__":
     user = LXUser()
     userA = user.getUserA()
+    # userA = user.getUserB()
     SDKManagerByUser = user.getLxSDKManager()
-
-    SDKManagerByUser.sync_get_token(json.dumps(userA))
+    a = SDKManagerByUser.sync_get_token(userA)
+    for i in a:
+        print a[i]
 

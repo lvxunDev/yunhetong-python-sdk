@@ -21,10 +21,20 @@ class rsa:
         aes_str = aes.toString()
         return base64.b64encode(cipher.encrypt(aes_str))
 
-    def sign_data(self, data):
+    def decryptRSA(self, data):
         base_pri = base64.b64decode(self.priKey)
-        key = RSA.importKey(base_pri)
-        h = SHA.new(data)
-        signer = PKCS1_v1_5.new(key)
-        signature = signer.sign(h)
-        return base64.b64encode(signature)
+        rsa_key = RSA.importKey(base_pri)
+        cipher = Cipher_pkcs1_v1_5.new(rsa_key)
+        random = ''  # what's this!!!
+        return cipher.decrypt(base64.b64decode(data), random)
+
+    def sign_data(self, data):
+        # with open(sys.path[0] + "/pem2/rsa_private_key.pem") as privateFile:
+        #     private_key_file = privateFile.read()
+
+        key = base64.b64decode(self.priKey)
+
+        private_key = RSA.importKey(key)
+        hash_obj = SHA.new(data)
+        signer = PKCS1_v1_5.new(private_key)
+        return base64.b64encode(signer.sign(hash_obj))
