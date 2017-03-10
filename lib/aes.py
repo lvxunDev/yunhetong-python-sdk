@@ -46,7 +46,7 @@ class aes:
         self.bt = 1234567890123
 
     def _pad(self, s):
-        return s + (self.bs - len(s) % self.bs) * chr(self.bs - len(s) % self.bs)
+        return s + (self.bs - len(s) % self.bs) * '\t'
 
     @staticmethod
     def _unpad(s):
