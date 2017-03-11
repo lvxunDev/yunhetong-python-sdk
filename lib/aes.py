@@ -17,9 +17,7 @@ class aes:
             self.refresh()
 
     def encrypt(self, data):
-        size = 16  # (MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC) block size
         data = self._pad(data, 16)
-        iv = Random.new().read(AES.block_size)
         cipher = AES.new(self.secretKey, AES.MODE_CBC, self.iv)
         return base64.b64encode(cipher.encrypt(data))
 

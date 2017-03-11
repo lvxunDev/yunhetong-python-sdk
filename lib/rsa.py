@@ -29,9 +29,6 @@ class rsa:
         return cipher.decrypt(base64.b64decode(data), random)
 
     def sign_data(self, data):
-        # with open(sys.path[0] + "/pem2/rsa_private_key.pem") as privateFile:
-        #     private_key_file = privateFile.read()
-
         key = base64.b64decode(self.priKey)
 
         private_key = RSA.importKey(key)
