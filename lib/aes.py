@@ -17,16 +17,16 @@ class aes:
             self.refresh()
 
     def encrypt(self, data):
-        data = self._pad(data)
+        size = 16  # (MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC) block size
+        data = self._pad(data, 16)
         iv = Random.new().read(AES.block_size)
-        cipher = AES.new(self.secretKey, AES.MODE_CBC, iv)
+        cipher = AES.new(self.secretKey, AES.MODE_CBC, self.iv)
         return base64.b64encode(cipher.encrypt(data))
 
     def decrypt(self, dataB):
         data = base64.b64decode(dataB)
-        iv = data[:AES.block_size]
-        cipher = AES.new(self.secretKey, AES.MODE_CBC, iv)
-        res = cipher.decrypt(data[AES.block_size:])
+        cipher = AES.new(self.secretKey, AES.MODE_CBC, self.iv)
+        res = cipher.decrypt(data)
         return self._unpad(res).decode('utf-8')
 
     def toString(self):
@@ -45,8 +45,9 @@ class aes:
         self.secretKey = '1234567812345678'  # SeanWu told me to write this
         self.bt = 1234567890123
 
-    def _pad(self, s):
-        return s + (self.bs - len(s) % self.bs) * '\t'
+    def _pad(self, s, block_size):
+        pad = block_size - (len(s) % block_size)
+        return s + pad * chr(pad)
 
     @staticmethod
     def _unpad(s):
