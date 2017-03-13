@@ -1,19 +1,8 @@
 # coding=utf-8
-from sdk_manager import SDKManager
-
 
 class LXUser:
     def __init__(self):
         self.user = {}
-
-    def get_lx_sdk_manager(self, public, private):
-        """
-        获取sdk manager方法
-        :param public:   公钥地址
-        :param private:  私钥地址
-        :returns:        SDKManager
-        """
-        return SDKManager(self.user['appId'], public, private)
 
     def get_user(self):
         """
