@@ -18,7 +18,7 @@ class rsa:
         base_pub = base64.b64decode(self.pubKey)
         rsa_key = RSA.importKey(base_pub)
         cipher = Cipher_pkcs1_v1_5.new(rsa_key)
-        aes_str = aes.toString()
+        aes_str = aes.to_string()
         return base64.b64encode(cipher.encrypt(aes_str))
 
     def decryptRSA(self, data):

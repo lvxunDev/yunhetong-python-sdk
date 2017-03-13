@@ -1,3 +1,4 @@
+# coding=utf-8
 import base64
 import json
 import time
@@ -5,7 +6,13 @@ from Crypto.Cipher import AES
 from Crypto import Random
 
 
-class aes:
+class Aes:
+    """
+    aes构造函数
+    如果有key传入，就调用该key，如果没有，就设置一个新key
+    :param key:key字典，包含aes加密需要的 secretKey iv bt
+    """
+
     def __init__(self, key=''):
         self.bs = 16
         if '' != key:
@@ -17,17 +24,31 @@ class aes:
             self.refresh()
 
     def encrypt(self, data):
+        """
+        aes加密方法
+        :param data: 需要加密的数据
+        :return:     加密完毕的数据
+        """
         data = self._pad(data, 16)
         cipher = AES.new(self.secretKey, AES.MODE_CBC, self.iv)
         return base64.b64encode(cipher.encrypt(data))
 
-    def decrypt(self, dataB):
-        data = base64.b64decode(dataB)
+    def decrypt(self, data):
+        """
+        aes解密方法
+        :param data: 需要解密的数据
+        :return:     解密完毕的数据
+        """
+        data64 = base64.b64decode(data)
         cipher = AES.new(self.secretKey, AES.MODE_CBC, self.iv)
-        res = cipher.decrypt(data)
+        res = cipher.decrypt(data64)
         return self._unpad(res).decode('utf-8')
 
-    def toString(self):
+    def to_string(self):
+        """
+        加密信息转字符串方法
+        :return: json字符串
+        """
         self.iv += "=" * ((4 - len(self.iv) % 4) % 4)
 
         ret_map = {
@@ -41,9 +62,10 @@ class aes:
         self.iv = Random.new().read(AES.block_size)
         # todo create key generator
         self.secretKey = '1234567812345678'  # SeanWu told me to write this
-        self.bt = 1234567890123
+        self.bt = int(round(time.time() * 1000))
 
-    def _pad(self, s, block_size):
+    @staticmethod
+    def _pad(s, block_size):
         pad = block_size - (len(s) % block_size)
         return s + pad * chr(pad)
 
