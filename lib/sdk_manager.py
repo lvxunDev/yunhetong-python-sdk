@@ -7,13 +7,7 @@ from secretManager import SecretManager
 
 
 class SDKManager:
-    """
-    SDKManager构造函数
-    设置初始变量并构造一个对应的secretManager
-    :param appId:    第三方应用的appId
-    :param pubPath:  公钥地址
-    :param priPath:  私钥地址
-    """
+
 
     def __init__(self, app_id, pub_path, pri_path):
         self.host = 'http://sdk.yunhetong.com/sdk'
