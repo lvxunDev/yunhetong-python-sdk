@@ -1,7 +1,6 @@
 # coding=utf-8
 import time
 
-from lib.lx_user import LXUser
 from lib.sdk_manager import SDKManager
 
 
