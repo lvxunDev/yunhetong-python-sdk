@@ -94,6 +94,27 @@ class SDKManager:
         response = requests.post(self.host + url, data)
         return self.secret_manager.decrypt(response.json())
 
+    def download_contract(self, contract_id):
+        """
+        下载合同
+        :param contract_id:
+        """
+        url = '/third/download'
+        query_param = {'contractId': contract_id,
+                       'timestamp': int(round(time.time() * 1000))
+                       }
+        secret = self.secret_manager.encrypt(json.dumps(query_param))
+        data = {
+            'appid': self.app_id,
+            'secret': secret
+        }
+        response = requests.post(self.host + url, data)
+        header = response.headers
+        file = header['Content-Disposition'].replace('attachment;filename=', '')
+        with open(file, "wb") as code:
+            # 安装到本地main.py当前文件夹下
+            code.write(response.content)
+
     def invalid_contract(self, contract_id):
         """
         作废合同
