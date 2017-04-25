@@ -1,35 +1,34 @@
-# yunhetong-python-sdk
-This is yunhetong python sdk
-
-## requirements
-
-[![#](https://img.shields.io/badge/python-2.7-green.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
-[![#](https://img.shields.io/badge/pycrypto-2.6.1-blue.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
-[![#](https://img.shields.io/badge/requests-2.12.4-blue.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
 
 # php SDK 接入快速上手
 
 - sdk 的用法在 ```main.py``` 里
 
-# 0x00 目录结构
+# 0x00 相关依赖
+
+[![#](https://img.shields.io/badge/python-2.7-green.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
+[![#](https://img.shields.io/badge/pycrypto-2.6.1-blue.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
+[![#](https://img.shields.io/badge/requests-2.12.4-blue.svg)](https://github.com/lvxunDev/yunhetong-python-sdk)
+
+
+# 0x01 目录结构
 
 ```
 pythonSDK
 |
 |-------docs     // 一些说明文档
 |-------main.py  // 一些使用示例
-|-------lib  // python php SDK 核心包
+|-------lib      // python php SDK 核心包
 |         |---- aes.py      // AES 加密相关的一个类，客户一般不需要使用
 |         |---- rsa.py      // RSA 加密相关的一个类，客户一般不需要使用
 |         |---- sdk_manager.py      // 客户最主要使用的一个类
 |         |---- secretManager.py   // 加解密管理类，客户一般不需要调用
 ```
 
-# 0x01 初始化 LxSDKManager
+# 0x02 初始化 LxSDKManager
 
 为了方便，这里我们建一个资源类```resource.py```,并添加如下代码：
 
-```python
+``` python
 
 $root_path = $_SERVER['DOCUMENT_ROOT'];
 include_once($root_path . "/library/LxSDKManager.class.php");
@@ -60,13 +59,13 @@ class R:
 其中公私玥参考公私玥相关的那篇文章。
 
 
-# 0x02 导入用户
+# 0x03 导入用户
 我们要导入用户并且获取 token
 - 准备用户数据
 
 在 R 类中添加如下代码
 
-```python
+``` python
 
     @staticmethod
     def get_test_user_a():
@@ -88,7 +87,7 @@ class R:
 
 - 导入用户
 
-```python
+``` python
     # 首先，初始化 sdk_manager
     sdk_manager = R.get_sdk_manager()
     # 然后随便初始化一个用户信息
@@ -100,13 +99,13 @@ class R:
 - 返回结果
 正常会返回如下所示字符串
 
-```json
+``` json
 {"code":200,"message":"true","subCode":200,"value":{"contractList":[{"id":1701061349385004,"status":"签署中","title":"测试合同标题40"},{"id":1701031046255028,"status":"签署中","title":"测试合同标题25"}],"token":"TGT-31356-4FZDJcQR3yK4IiaWIafnxQY0QAIoAI0SP6jja0VFY65PJ1S2W4-cas01.example.org"}}
 ```
 
 然后将 token 返回给客户端，客户端再通过这个 token 去调用相应的SDK（比如js SDK 或 Android SDK 或 iOS SDK），去访问合同操作
 
-# 0x03 生成合同
+# 0x04 生成合同
 初始化 sdk_manager 略，参考上面第一条。假设有个 A,B 两个人，A 要发起一份合同合同给 B，此时 A是合同的发起方， 也是合同的参与方。以此为例，代码如下
 - 准备用户 B 信息
 参考上面第二条用户 A 的信息，用户 B 的代码如下
@@ -133,7 +132,7 @@ class R:
 
 - 准备合同信息
 
-```python
+``` python
     @staticmethod
     def get_test_contract():
     """
@@ -163,7 +162,7 @@ class R:
 
 在刚才的用户A、B的基础上，我们可以生成合同的参与方
 
-```python
+``` python
 
     @staticmethod
     def get_actors():
@@ -211,28 +210,28 @@ class R:
 - 返回结果
 正常的话会返回如下所示字符串
 
-```
+``` json
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061352090008}}
 ```
 
 将上一步得到的 token 和这里的 contractId 返回给客户端，即可用相应的 SDK（比如js SDK 或 Android SDK 或 iOS SDK），去进行合同的相关操作。
 
-# 0x04 通过创建合同获取 token
+# 0x05 通过创建合同获取 token
 有时候我们想在创建合同的同时也获取 Token，我们可以像下面这样
 
-```python
+``` python
     # 或者你也可以在创建合同的时候顺便获取 token
     print sdk_manager.token_contract(R.get_test_user_a(), R.get_test_contract(), R.get_actors()) + '\r\n\r\n'
 ```
 
 正常的话会返回如下所示字符串
 
-```json
+``` json
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061349385004,"token":"TGT-31353-vpnotTbYFJ5wXoTUDzjSD9eVqZfzx9RZIsUhqGcEL5kjRcS6V6-cas01.example.org"}}
 ```
 
 
-# 0x05 End
+# 0x06 End
 就是这么简单方便，嘿嘿嘿~
 
 
