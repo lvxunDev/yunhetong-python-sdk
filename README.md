@@ -1,5 +1,5 @@
 
-# php SDK 接入快速上手
+# Python SDK 接入快速上手
 
 - sdk 的用法在 ```main.py``` 里
 
